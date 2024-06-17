@@ -11,4 +11,4 @@ let gameboardTwo = Gameboard();
 console.log("hello!");
 
 let boardOne = UI.createGameboardUI();
-document.body.append(boardOne);
+document.body.getElementsByTagName('main')[0].appendChild(boardOne);

@@ -1,11 +1,16 @@
 body {
   margin: 0;
+  height: 100vh;
+  background: url('../assets/images/map.svg'), linear-gradient(rgb(41, 64, 78), rgb(4,47,62));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
 header {
   width: 100%;
   height: 50px;
-  background-color: darkslategrey;
+  // background-color: darkslategrey;
   color: white;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
@@ -15,19 +20,61 @@ header {
   justify-content: center;
 }
 
+main {
+  margin: 30px;
+}
+
+.gameboard-container {
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  grid-template-rows: 25px 1fr;
+  width: 500px;
+  height: 500px;
+  // background-color: rgba(0,0,0,0.5);
+}
+
+.gameboard-numbers {
+  // background-color: red;
+  grid-area: 2/1;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.gameboard-letters {
+  grid-area: 1/2;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.side-char {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  font-weight: bold;
+}
+
 .gameboard {
+  grid-area: 2/2;
   display: grid;
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(10, 1fr);
-  row-gap: 2px;
-  column-gap: 2px;
-  width: 500px;
-  height: 500px;
-  // border: 1px lightgray solid;
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  border: 1px lightgray solid;
+  background: radial-gradient(rgba(0,0,0,0), rgba(82, 82, 158, 0.5));
+  cursor: crosshair;
 }
 
 .gameboard-cell {
+  background-color: rgba(0,0,0,0.5);
   border: 1px lightgray solid;
-  border-radius: 4px;
-  cursor: crosshair;
+  // cursor: not-allowed;
 }

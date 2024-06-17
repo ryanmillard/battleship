@@ -1,1 +1,54 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 125" version="1.1" x="0px" y="0px"><title>ship</title><desc>Created with Sketch.</desc><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g fill="#000000" fill-rule="nonzero"><path d="M68.83,43.43 L49.81,33.67 L30.83,43.42 L30.83,26.07 L42.83,26.07 L42.83,18 L56.83,18 L56.83,26.07 L68.83,26.07 L68.83,43.43 Z M49.81,38.73 L77.67,53.02 L68.67,82.27 L31,82.27 L22,53.02 L49.81,38.73 Z"/></g></g><text x="0" y="115" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">Created by Artem Korotkikh</text><text x="0" y="120" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">from the Noun Project</text></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 100 125"
+   version="1.1"
+   x="0px"
+   y="0px"
+   id="svg3"
+   sodipodi:docname="ship.svg"
+   inkscape:version="1.3.2 (091e20ef0f, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="6.408"
+     inkscape:cx="52.902622"
+     inkscape:cy="62.5"
+     inkscape:window-width="1920"
+     inkscape:window-height="998"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3" />
+  <title
+     id="title1">ship</title>
+  <desc
+     id="desc1">Created with Sketch.</desc>
+  <g
+     stroke="none"
+     stroke-width="1"
+     fill="none"
+     fill-rule="evenodd"
+     id="g2"
+     transform="translate(-0.97426698,10.486884)">
+    <g
+       fill="#000000"
+       fill-rule="nonzero"
+       id="g1">
+      <path
+         d="M 68.83,43.43 49.81,33.67 30.83,43.42 V 26.07 h 12 V 18 h 14 v 8.07 h 12 z m -19.02,-4.7 27.86,14.29 -9,29.25 H 31 L 22,53.02 Z"
+         id="path1" />
+    </g>
+  </g>
+</svg>
