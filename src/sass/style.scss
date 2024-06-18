@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   background: url('../assets/images/map.svg'), linear-gradient(rgb(41, 64, 78), rgb(4,47,62));
   background-repeat: no-repeat;
   background-size: cover;
@@ -22,14 +22,17 @@ header {
 
 main {
   margin: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .gameboard-container {
   display: grid;
   grid-template-columns: 25px 1fr;
   grid-template-rows: 25px 1fr;
-  width: 500px;
-  height: 500px;
+  width: 450px;
+  height: 450px;
   // background-color: rgba(0,0,0,0.5);
 }
 
@@ -69,8 +72,15 @@ main {
   width: calc(100% - 2px);
   height: calc(100% - 2px);
   border: 1px lightgray solid;
-  background: radial-gradient(rgba(0,0,0,0), rgba(82, 82, 158, 0.5));
   cursor: crosshair;
+}
+
+.friendly-board {
+  background: radial-gradient(rgba(0,0,0,0), rgba(82, 82, 158, 0.5));
+}
+
+.enemy-board {
+  background: radial-gradient(rgba(0,0,0,0), rgba(163, 63, 63, 0.5));
 }
 
 .gameboard-cell {

@@ -1,12 +1,14 @@
 
 
-function createGameboardUI() {
+function createGameboardUI(isFriendly) {
   let containerFrame = document.createElement('div');
   containerFrame.classList.add('gameboard-container');
 
   let gameboardFrame = document.createElement('div');
   gameboardFrame.classList.add('gameboard');
   containerFrame.appendChild(gameboardFrame);
+
+  gameboardFrame.classList.add(isFriendly ? 'friendly-board':'enemy-board');
 
   let gameboardNumbers = document.createElement('div');
   gameboardNumbers.classList.add('gameboard-numbers');
