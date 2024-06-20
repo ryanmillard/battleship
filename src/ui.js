@@ -40,6 +40,12 @@ function createGameboardUI(isFriendly) {
       let cell = document.createElement('div');
       cell.classList.add('gameboard-cell');
       gameboardFrame.appendChild(cell);
+
+      cell.addEventListener('click', () => {
+        containerFrame.dispatchEvent(new CustomEvent('cellClicked', {
+          detail: { 'x': x, 'y': y }
+        }));
+      });
     }
   }
 

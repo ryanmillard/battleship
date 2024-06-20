@@ -19,3 +19,7 @@ let gameboardTwo = {
 const main = document.getElementsByTagName('main')[0];
 main.appendChild(gameboardOne.ui);
 main.appendChild(gameboardTwo.ui);
+
+gameboardOne.ui.addEventListener('cellClicked', (event) => {
+  console.log(event.detail);
+});
