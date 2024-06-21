@@ -1,0 +1,63 @@
+.gameboard-container {
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  grid-template-rows: 25px 1fr;
+  width: 430px;
+  height: 430px;
+  background-color: rgba(0,0,0,0.5);
+  padding: 7px;
+  border-radius: 10px;
+}
+
+.gameboard-numbers {
+  // background-color: red;
+  grid-area: 2/1;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.gameboard-letters {
+  grid-area: 1/2;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.side-char {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.gameboard {
+  grid-area: 2/2;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  width: calc(100% - 2px);
+  height: calc(100% - 2px);
+  border: 1px lightgray solid;
+  cursor: crosshair;
+}
+
+.friendly-board {
+  background: radial-gradient(rgba(0,0,0,0), rgba(82, 82, 158, 0.5));
+}
+
+.enemy-board {
+  background: radial-gradient(rgba(0,0,0,0), rgba(163, 63, 63, 0.5));
+}
+
+.gameboard-cell {
+  background-color: rgba(0,0,0,0.5);
+  border: 1px lightgray solid;
+  // cursor: not-allowed;
+}

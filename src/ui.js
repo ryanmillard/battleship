@@ -49,7 +49,7 @@ function createGameboardUI(isFriendly) {
     }
   }
 
-  return containerFrame
+  return containerFrame;
 }
 
 module.exports = { createGameboardUI };
