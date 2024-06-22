@@ -1,11 +1,12 @@
 .gameboard-container {
+  $padding: 20px;
   display: grid;
   grid-template-columns: 25px 1fr;
   grid-template-rows: 25px 1fr;
-  width: 430px;
-  height: 430px;
+  width: calc(100% - $padding*2);
+  aspect-ratio: 1;
   background-color: rgba(0,0,0,0.5);
-  padding: 7px;
+  padding: $padding;
   border-radius: 10px;
 }
 

@@ -23,25 +23,34 @@ header {
 }
 
 main {
-  margin: 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.ship-planning {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+.planning-wrapper {
   width: 100%;
-  height: 100%;
+  background-color: red;
+}
+
+.planning-container {
+  background-color: blue;
+  display: grid;
+  grid-template-columns: 8.25fr 1.75fr;
+  grid-template-rows: 1.25fr 8.75fr;
+  width: 80%;
   gap: 20px;
+  margin: 0 auto;
 }
 
 .planning-grid {
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 1;
   width: 100%;
   height: 100%;
+  aspect-ratio: 1;
   
   display: flex;
   align-items: center;
@@ -51,16 +60,25 @@ main {
 }
 
 .planning-title {
+  grid-row-start: 1;
+  grid-row-end: 1;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  width: 100%;
   background-color: rgba(0,0,0,0.5);
   color: white;
-  padding: 20px;
   border-radius: 10px;
   font-weight: bold;
   font-family: monospace;
+  text-align: center;
   font-size: 1rem;
 }
 
 .draggables-container {
+  grid-row-start: 2;
+  grid-row-end: 2;
+  grid-column-start: 2;
+  grid-column-end: 2;
   height: 100%;
   background-color: rgba(0,0,0,0.5);
 }

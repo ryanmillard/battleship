@@ -15,10 +15,6 @@ function createSelectionUI() {
     'ui': UI.createGameboardUI(true)
   }
 
-  shipSelectionBoard.ui.style.width = '70%';
-  shipSelectionBoard.ui.style.height = '70%';
-  shipSelectionBoard.ui.style.aspectRatio = '1';
-
   planningGrid.prepend(shipSelectionBoard.ui);
 }
 
