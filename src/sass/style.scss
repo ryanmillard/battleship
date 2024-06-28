@@ -100,12 +100,17 @@ main {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  cursor: grab;
+}
+
+.draggable-ship:hover .ship-img {
+  filter: invert(100%);
 }
 
 .ship-img {
   width: 70%;
   height: 30%;
-  filter: invert(100%);
+  filter: invert(50%);
 
   &.ship-img-5 { background: url('../assets/images/carrier.svg') no-repeat center; }
   &.ship-img-4 { background: url('../assets/images/battleship.svg') no-repeat center; }
@@ -119,4 +124,5 @@ main {
   margin: 5%;
   font-size: 0.75rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  user-select: none;
 }
