@@ -46,6 +46,11 @@ function createGameboardUI(isFriendly) {
           detail: { 'x': x, 'y': y }
         }));
       });
+
+      cell.addEventListener('drop', (event) => {
+        // The cell has had a draggable element dropped on it.
+        
+      });
     }
   }
 
