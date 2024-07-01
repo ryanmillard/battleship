@@ -60,7 +60,19 @@
 }
 
 .gameboard-cell {
+  // background-color: rgba(98, 169, 98, 0.5);
   background-color: rgba(0,0,0,0.5);
   border: 1px lightgray solid;
   // cursor: not-allowed;
 }
+
+.cell-deny {
+  background-color: rgb(153,56,56,0.5);
+}
+
+.cell-accept {
+  background-color: rgba(98,169,98,0.5);
+}
+
+// .cell-hover {
+// }

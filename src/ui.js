@@ -35,8 +35,8 @@ function createGameboardUI(isFriendly) {
   const width = 10;
   const height = 10;
 
-  for (let x = 0; x < width; x++) {
-    for (let y = 0; y < height; y++) {
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
       let cell = document.createElement('div');
       cell.classList.add('gameboard-cell');
       gameboardFrame.appendChild(cell);
@@ -49,7 +49,36 @@ function createGameboardUI(isFriendly) {
 
       cell.addEventListener('drop', (event) => {
         // The cell has had a draggable element dropped on it.
+        event.preventDefault();
+        console.log(event);
         
+        const ship = event.dataTransfer.getData('typeId');
+        console.log(ship);
+
+        containerFrame.dispatchEvent(new CustomEvent('shipDropped', {
+
+        }));
+      });
+
+      cell.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        console.log('Dragged over', event.dataTransfer.getData('typeId'));
+      });
+      
+      cell.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+
+        containerFrame.dispatchEvent(new CustomEvent('cellDragLeave', {
+          detail: { 'x': x, 'y': y }
+        }));
+      });
+
+      cell.addEventListener('dragenter', (event) => {
+        event.preventDefault();
+
+        containerFrame.dispatchEvent(new CustomEvent('cellDragEnter', {
+          detail: { 'x': x, 'y': y }
+        }));
       });
     }
   }
