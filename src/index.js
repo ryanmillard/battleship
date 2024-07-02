@@ -19,6 +19,8 @@ let shipSelectionBoard = {
 
 planningGrid.prepend(shipSelectionBoard.ui);
 
+const planningGameboard = shipSelectionBoard.ui.children[0];
+
 let draggablesContainer = document.getElementsByClassName('draggables-container')[0];
 let draggables = draggablesContainer.children;
 
@@ -27,12 +29,12 @@ for (let i = 0; i < draggables.length; i++) {
   console.log(shipData[i]);
 
   draggables[i].addEventListener('dragstart', (event) => {
-    event.dataTransfer.setData('typeId', i);
+    draggingShipID = i;
   });
 }
 
-let currentDragCellCords = null;
 let isHorizontal = false;
+let draggingShipID = null;
 
 function isValidGameboardCord(x,y) {
   return x >= 0 && x <= 9 && y >= 0 && y <= 9;
@@ -49,6 +51,19 @@ function resetGridHighlights() {
     let cell = cells[i];
     cell.classList.remove('cell-accept', 'cell-deny');
   }
+}
+
+function isShipDropLocationValid(start, isHorizontal, length) {
+  for (let i = 1; i < length; i++) {
+    let cord = [
+      isHorizontal ? start[0] + i : start[0],
+      isHorizontal ? start[1] : start[1] + i
+    ];
+
+    if (!isValidGameboardCord(cord[0], cord[1])) return false;
+  }
+
+  return true;
 }
 
 function highlightShipDropLocation(start, isHorizontal, length) {
@@ -77,13 +92,18 @@ function highlightShipDropLocation(start, isHorizontal, length) {
   }
 }
 
-shipSelectionBoard.ui.children[0].addEventListener('dragleave', (event) => {
+planningGameboard.addEventListener('dragleave', (event) => {
   event.stopPropagation();
   event.preventDefault();
   if (event.currentTarget.contains(event.relatedTarget)) return;
   resetGridHighlights();
-  currentDragCellCords = null;
   console.log("Drag leave grid");
+});
+
+shipSelectionBoard.ui.addEventListener('shipDropped', (event) => {
+  resetGridHighlights();
+  let shipLength = shipData[draggingShipID].length;
+  if (isShipDropLocationValid([event.detail.x, event.detail.y], isHorizontal, shipLength)) return;
 });
 
 shipSelectionBoard.ui.addEventListener('cellDragLeave', (event) => {
@@ -92,9 +112,9 @@ shipSelectionBoard.ui.addEventListener('cellDragLeave', (event) => {
 
 shipSelectionBoard.ui.addEventListener('cellDragEnter', (event) => {
   console.log('Cell Enter', event.detail);
-  if (currentDragCellCords !== null) resetGridHighlights();
-  currentDragCellCords = [event.detail.x, event.detail.y];
-  highlightShipDropLocation(currentDragCellCords, isHorizontal, 5);
+  let shipLength = shipData[draggingShipID].length;
+  resetGridHighlights();
+  highlightShipDropLocation([event.detail.x, event.detail.y], isHorizontal, shipLength);
 });
 
 // let gameboardOne = {

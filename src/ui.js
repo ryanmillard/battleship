@@ -56,7 +56,7 @@ function createGameboardUI(isFriendly) {
         console.log(ship);
 
         containerFrame.dispatchEvent(new CustomEvent('shipDropped', {
-
+          detail: { 'x': x, 'y': y }
         }));
       });
 
