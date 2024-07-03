@@ -10,6 +10,10 @@ function createGameboardUI(isFriendly) {
 
   gameboardFrame.classList.add(isFriendly ? 'friendly-board':'enemy-board');
 
+  let shipContainerFrame = document.createElement('div');
+  shipContainerFrame.classList.add('ship-container');
+  containerFrame.appendChild(shipContainerFrame);
+
   let gameboardNumbers = document.createElement('div');
   gameboardNumbers.classList.add('gameboard-numbers');
   containerFrame.appendChild(gameboardNumbers);
@@ -41,45 +45,31 @@ function createGameboardUI(isFriendly) {
       cell.classList.add('gameboard-cell');
       gameboardFrame.appendChild(cell);
 
+      // Cell was clicked
       cell.addEventListener('click', () => {
         containerFrame.dispatchEvent(new CustomEvent('cellClicked', {
           detail: { 'x': x, 'y': y }
         }));
       });
-
+    
+      // The cell has had a draggable element dropped on it.
       cell.addEventListener('drop', (event) => {
-        // The cell has had a draggable element dropped on it.
         event.preventDefault();
-        console.log(event);
-        
-        const ship = event.dataTransfer.getData('typeId');
-        console.log(ship);
-
         containerFrame.dispatchEvent(new CustomEvent('shipDropped', {
           detail: { 'x': x, 'y': y }
         }));
       });
 
-      cell.addEventListener('dragover', (event) => {
-        event.preventDefault();
-        console.log('Dragged over', event.dataTransfer.getData('typeId'));
-      });
-      
-      cell.addEventListener('dragleave', (event) => {
-        event.preventDefault();
-
-        containerFrame.dispatchEvent(new CustomEvent('cellDragLeave', {
-          detail: { 'x': x, 'y': y }
-        }));
-      });
-
+      // The cell has had the mouse enter it with an element being dragged
       cell.addEventListener('dragenter', (event) => {
         event.preventDefault();
-
         containerFrame.dispatchEvent(new CustomEvent('cellDragEnter', {
           detail: { 'x': x, 'y': y }
         }));
       });
+
+      // Prevents unwanted behaviour
+      cell.addEventListener('dragover', (event) => event.preventDefault());
     }
   }
 
