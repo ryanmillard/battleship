@@ -19,6 +19,10 @@ let shipSelectionBoard = {
 
 planningGrid.prepend(shipSelectionBoard.ui);
 
+const shipRotateBtn = document.getElementById('ship-rotate-btn');
+const shipResetBtn = document.getElementById('ship-reset-btn');
+const planningConfirmBtn = document.getElementById('planning-confirm-btn');
+
 const planningGameboard = shipSelectionBoard.ui.children[0];
 const draggablesContainer = document.getElementsByClassName('draggables-container')[0];
 const draggables = draggablesContainer.children;
@@ -113,6 +117,10 @@ shipSelectionBoard.ui.addEventListener('cellDragEnter', (event) => {
 
 shipSelectionBoard.ui.addEventListener('cellClicked', (event) => {
   console.log('Cell clicked', event.detail);
+});
+
+shipRotateBtn.addEventListener('click', (event) => {
+
 });
 
 // let gameboardOne = {
