@@ -27,13 +27,15 @@ const planningGameboard = shipSelectionBoard.ui.children[0];
 const draggablesContainer = document.getElementsByClassName('draggables-container')[0];
 const draggables = draggablesContainer.children;
 
+const shipContainer = shipSelectionBoard.ui.children[1];
+
 for (let i = 0; i < draggables.length; i++) {
   draggables[i].addEventListener('dragstart', (event) => {
     draggingShipID = i;
   });
 }
 
-let isHorizontal = false;
+let isHorizontal = true;
 let draggingShipID = null;
 
 function isValidGameboardCord(x,y) {
@@ -92,6 +94,16 @@ function highlightShipDropLocation(start, isHorizontal, length) {
   }
 }
 
+function createShipUI(shipID, start, isHorizontal) {
+  let ship = shipData[shipID];
+  let div = document.createElement('div');
+  div.style.width = isHorizontal ? `${ship.length * 10}%` : '10%';
+  div.style.height = isHorizontal ? '10%' : `${ship.length * 10}%`;
+  div.style.backgroundColor = 'red';
+  div.classList.add(`ship-img-${shipID+1}`);
+  shipContainer.appendChild(div);
+}
+
 planningGameboard.addEventListener('dragleave', (event) => {
   event.stopPropagation();
   event.preventDefault();
@@ -105,7 +117,15 @@ shipSelectionBoard.ui.addEventListener('shipDropped', (event) => {
   resetGridHighlights();
   let shipLength = shipData[draggingShipID].length;
   draggingShipID = null;
-  if (isShipDropLocationValid([event.detail.x, event.detail.y], isHorizontal, shipLength)) return;
+  let dropLocation = [event.detail.x, event.detail.y];
+
+  if (!isShipDropLocationValid(
+    dropLocation,
+    isHorizontal,
+    shipLength)
+  ) return;
+
+  createShipUI(draggingShipID, dropLocation, isHorizontal);
 });
 
 shipSelectionBoard.ui.addEventListener('cellDragEnter', (event) => {
@@ -120,6 +140,15 @@ shipSelectionBoard.ui.addEventListener('cellClicked', (event) => {
 });
 
 shipRotateBtn.addEventListener('click', (event) => {
+  console.log("changing rotation")
+  isHorizontal = isHorizontal ? false : true;
+});
+
+shipResetBtn.addEventListener('click', (event) => {
+
+});
+
+planningConfirmBtn.addEventListener('click', (event) => {
 
 });
 

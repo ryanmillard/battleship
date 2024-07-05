@@ -140,13 +140,13 @@ main {
   width: 70%;
   height: 30%;
   filter: invert(50%);
-
-  &.ship-img-5 { background: url('../assets/images/carrier.svg') no-repeat center; }
-  &.ship-img-4 { background: url('../assets/images/battleship.svg') no-repeat center; }
-  &.ship-img-3 { background: url('../assets/images/cruiser.svg') no-repeat center;}
-  &.ship-img-2 { background: url('../assets/images/submarine.svg') no-repeat center; }
-  &.ship-img-1 { background: url('../assets/images/destroyer.svg') no-repeat center; }
 }
+
+.ship-img-1 { background: url('../assets/images/carrier.svg') no-repeat center; }
+.ship-img-2 { background: url('../assets/images/battleship.svg') no-repeat center; }
+.ship-img-3 { background: url('../assets/images/cruiser.svg') no-repeat center;}
+.ship-img-4 { background: url('../assets/images/submarine.svg') no-repeat center; }
+.ship-img-5 { background: url('../assets/images/destroyer.svg') no-repeat center; }
 
 .ship-name {
   font-weight: normal;
