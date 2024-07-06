@@ -96,12 +96,14 @@ function highlightShipDropLocation(start, isHorizontal, length) {
 
 function createShipUI(shipID, start, isHorizontal) {
   let ship = shipData[shipID];
-  let div = document.createElement('div');
-  div.style.width = isHorizontal ? `${ship.length * 10}%` : '10%';
-  div.style.height = isHorizontal ? '10%' : `${ship.length * 10}%`;
-  div.style.backgroundColor = 'red';
-  div.classList.add(`ship-img-${shipID+1}`);
-  shipContainer.appendChild(div);
+  console.log(ship);
+  let shipImg = document.createElement('div');
+  shipImg.style.width = isHorizontal ? `${ship.length * 10}%` : '10%';
+  shipImg.style.height = isHorizontal ? '10%' : `${ship.length * 10}%`;
+  shipImg.style.filter = "invert(100%)";
+  shipImg.classList.add(`ship-img-${shipID+1}`);
+  console.log(shipImg);
+  shipContainer.appendChild(shipImg);
 }
 
 planningGameboard.addEventListener('dragleave', (event) => {
@@ -116,16 +118,17 @@ planningGameboard.addEventListener('dragleave', (event) => {
 shipSelectionBoard.ui.addEventListener('shipDropped', (event) => {
   resetGridHighlights();
   let shipLength = shipData[draggingShipID].length;
-  draggingShipID = null;
   let dropLocation = [event.detail.x, event.detail.y];
 
-  if (!isShipDropLocationValid(
+  if (isShipDropLocationValid(
     dropLocation,
     isHorizontal,
     shipLength)
-  ) return;
+  ) {
+    createShipUI(draggingShipID, dropLocation, isHorizontal);
+  }
 
-  createShipUI(draggingShipID, dropLocation, isHorizontal);
+  draggingShipID = null;
 });
 
 shipSelectionBoard.ui.addEventListener('cellDragEnter', (event) => {
