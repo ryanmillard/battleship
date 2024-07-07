@@ -63,6 +63,7 @@
   // background-color: rgba(98, 169, 98, 0.5);
   background-color: rgba(0,0,0,0.5);
   border: 1px lightgray solid;
+  user-select: none;
 }
 
 .cell-deny {
@@ -79,4 +80,20 @@
   height: 100%;
   background: none;
   pointer-events: none;
+  position: relative;
+}
+
+.placed-ship-container {
+  position: absolute;
+  filter: invert(100%) opacity(50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.placed-ship-img {
+  width: 90%;
+  height: 70%;
+  object-fit: fill;
+  user-select: none;
 }

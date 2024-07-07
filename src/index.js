@@ -4,6 +4,14 @@ import './classes/ship.js';
 import './ui.js';
 import './shipData.js'
 
+import carrierSVG from './assets/images/carrier.svg';
+import battleshipSVG from './assets/images/battleship.svg';
+import cruiserSVG from './assets/images/cruiser.svg';
+import submarineSVG from './assets/images/submarine.svg';
+import destroyerSVG from './assets/images/destroyer.svg';
+
+const shipImages = [carrierSVG, battleshipSVG, cruiserSVG, submarineSVG, destroyerSVG];
+
 const Gameboard = require('./classes/gameboard.js');
 const UI = require('./ui.js');
 
@@ -96,14 +104,31 @@ function highlightShipDropLocation(start, isHorizontal, length) {
 
 function createShipUI(shipID, start, isHorizontal) {
   let ship = shipData[shipID];
-  console.log(ship);
-  let shipImg = document.createElement('div');
-  shipImg.style.width = isHorizontal ? `${ship.length * 10}%` : '10%';
-  shipImg.style.height = isHorizontal ? '10%' : `${ship.length * 10}%`;
-  shipImg.style.filter = "invert(100%)";
-  shipImg.classList.add(`ship-img-${shipID+1}`);
-  console.log(shipImg);
-  shipContainer.appendChild(shipImg);
+
+  let placedShipContainer = document.createElement('div');
+  placedShipContainer.classList.add('placed-ship-container');
+
+  // Set container size to length of ship
+  placedShipContainer.style.width = `${ship.length * 10}%`; // X
+  placedShipContainer.style.height = '10%' // Y
+  
+  // Set container position in gameboard to where it was dropped
+  placedShipContainer.style.left = `${start[0] * 10}%`; // X
+  placedShipContainer.style.top = `${start[1] * 10}%`; // Y
+
+  // Rotate ship if not horizontal
+  if (!isHorizontal) {
+    // Needs to be translated or it goes out of place
+    placedShipContainer.style.transform = "rotate(90deg) translate(0px, -100%)";
+    placedShipContainer.style.transformOrigin = "left top 0px";
+  }
+
+  let placedShipImg = document.createElement('img');
+  placedShipImg.classList.add('placed-ship-img');
+  placedShipImg.src = shipImages[shipID];
+  placedShipContainer.appendChild(placedShipImg);
+
+  shipContainer.appendChild(placedShipContainer);
 }
 
 planningGameboard.addEventListener('dragleave', (event) => {
@@ -125,9 +150,11 @@ shipSelectionBoard.ui.addEventListener('shipDropped', (event) => {
     isHorizontal,
     shipLength)
   ) {
-    createShipUI(draggingShipID, dropLocation, isHorizontal);
+    draggingShipID = null;
+    return;
   }
-
+  
+  createShipUI(draggingShipID, dropLocation, isHorizontal);
   draggingShipID = null;
 });
 
