@@ -24,8 +24,9 @@ header {
 
 main {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  // align-items: center;
+  // justify-content: space-between;
+  flex-direction: column;
 }
 
 .planning-wrapper {
@@ -95,10 +96,21 @@ main {
     cursor: pointer;
 
     &:hover {
-      transform: scale(1.1);
+      transform: scale(1.05);
       transition: 0.2s;
     }
   }
+}
+
+.planning-btn-green {
+  $green: rgba(78, 193, 21, 0.5);
+  border-color: $green !important;
+}
+
+.planning-btn-grey {
+  $grey: rgba(182, 182, 182, 0.5);
+  border-color: $grey !important;
+  color: $grey !important;
 }
 
 .draggables-container {
@@ -154,4 +166,17 @@ main {
   font-size: 0.75rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   user-select: none;
+}
+
+.game-wrapper {
+  width: 100%;
+}
+
+.game-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 10px;
+  margin: 0 auto;
+  max-width: 1200px;
 }

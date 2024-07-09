@@ -13,6 +13,7 @@ const shipImages = [carrierSVG, battleshipSVG, cruiserSVG, submarineSVG, destroy
 const Gameboard = require('./classes/gameboard.js');
 
 const main = document.getElementsByTagName('main')[0];
+const planningWrapper = document.getElementsByClassName('planning-wrapper')[0];
 const planningGrid = document.getElementsByClassName('planning-grid')[0];
 
 const planningGameboard = Gameboard(planningGrid, shipImages, true);
@@ -23,6 +24,14 @@ const planningConfirmBtn = document.getElementById('planning-confirm-btn');
 
 const draggablesContainer = document.getElementsByClassName('draggables-container')[0];
 const draggables = draggablesContainer.children;
+
+const gameWrapper = document.getElementsByClassName('game-wrapper')[0];
+
+const p1GameboardContainer = document.getElementById('p1-gameboard');
+const p2GameboardContainer = document.getElementById('p2-gameboard');
+
+const gameboardOne = Gameboard(p1GameboardContainer, shipImages, true);
+const gameboardTwo = Gameboard(p2GameboardContainer, shipImages, false);
 
 for (let i = 0; i < draggables.length; i++) {
   draggables[i].addEventListener('dragstart', (event) => {
@@ -41,6 +50,10 @@ function changeDraggableShipState(shipID, enabled) {
 
 planningGameboard.UI.addEventListener('shipDropped', (event) => {
   changeDraggableShipState(event.detail.shipID, false);
+  if (planningGameboard.areAllShipsPlaced()) {
+    planningConfirmBtn.classList.add('planning-btn-green');
+    planningConfirmBtn.classList.remove('planning-btn-grey');
+  }
 });
 
 shipRotateBtn.addEventListener('click', (event) => {
@@ -53,8 +66,13 @@ shipResetBtn.addEventListener('click', (event) => {
   for (let i = 0; i < draggables.length; i++) {
     changeDraggableShipState(i, true);
   }
+  planningConfirmBtn.classList.add('planning-btn-grey');
+  planningConfirmBtn.classList.remove('planning-btn-green');
 });
 
 planningConfirmBtn.addEventListener('click', (event) => {
-
+  if (!planningGameboard.areAllShipsPlaced()) return;
+  planningWrapper.style.display = 'none';
+  gameWrapper.style.display = 'inline-block';
 });
+

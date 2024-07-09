@@ -12,9 +12,13 @@ function Gameboard(parent, shipImages, isFriendly) {
       gameboard[x][y] = null;
     }
   }
+
+  let gameboardWrapper = document.createElement('div');
+  gameboardWrapper.classList.add('gameboard-wrapper');
   
   let containerFrame = document.createElement('div');
   containerFrame.classList.add('gameboard-container');
+  gameboardWrapper.appendChild(containerFrame);
 
   let gameboardFrame = document.createElement('div');
   gameboardFrame.classList.add('gameboard');
@@ -112,7 +116,7 @@ function Gameboard(parent, shipImages, isFriendly) {
     }
   }
 
-  parent.appendChild(containerFrame);
+  parent.appendChild(gameboardWrapper);
 
   function isValidGameboardCord(x,y) {
     return x >= 0 && x <= 9 && y >= 0 && y <= 9;
@@ -244,6 +248,17 @@ function Gameboard(parent, shipImages, isFriendly) {
     resetShipsStored();
   }
 
+  function areAllShipsPlaced() {
+    for (let i = 0; i < ships.length; i++) {
+      if (!ships[i].isPlaced) return false;
+    }
+    return true;
+  }
+
+  function addGameboardTitle() {
+    
+  }
+
   gameboardFrame.addEventListener('dragleave', (event) => {
     event.stopPropagation();
     event.preventDefault();
@@ -265,6 +280,7 @@ function Gameboard(parent, shipImages, isFriendly) {
     rotateShip,
     resetShips,
     getShips,
+    areAllShipsPlaced,
     'UI': containerFrame
   }
 }
