@@ -1,3 +1,7 @@
+@import '_variables';
+
+$cell-border: 1px lightgrey solid;
+
 .gameboard-wrapper {
   background-color: rgba(0,0,0,0.65);
   border-radius: 10px;
@@ -10,9 +14,14 @@
   display: grid;
   grid-template-columns: 25px 1fr;
   grid-template-rows: 25px 1fr;
-  width: calc(100% - #{$padding*2});
+  width: calc(100% - ($padding*2));
   aspect-ratio: 1;
   padding: $padding;
+
+  @media screen and (max-width: 700px) {
+    width: calc(100% - $padding);
+    padding: calc($padding/2);
+  }
 }
 
 .gameboard-numbers {
@@ -50,24 +59,30 @@
   display: grid;
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(10, 1fr);
+
   width: calc(100% - 2px);
   height: calc(100% - 2px);
-  border: 1px lightgray solid;
-  cursor: crosshair;
+
+  border-top: $cell-border;
+  border-left: $cell-border;
+  border-right: none;
+  border-bottom: none;
 }
 
 .friendly-board {
-  background: radial-gradient(rgba(0,0,0,0), rgba(82, 82, 158, 0.5));
+  background: radial-gradient(rgba(0,0,0,0), rgba($friendly-blue, 0.5));
 }
 
 .enemy-board {
-  background: radial-gradient(rgba(0,0,0,0), rgba(163, 63, 63, 0.5));
+  background: radial-gradient(rgba(0,0,0,0), rgba($enemy-red, 0.5));
 }
 
 .gameboard-cell {
-  // background-color: rgba(98, 169, 98, 0.5);
   background-color: rgba(0,0,0,0.5);
-  border: 1px lightgray solid;
+  border-right: $cell-border;
+  border-bottom: $cell-border;
+  border-top: none;
+  border-left: none;
   user-select: none;
 }
 
@@ -101,26 +116,4 @@
   height: 70%;
   object-fit: fill;
   user-select: none;
-}
-
-@media screen and (max-width: 900px) {
-  .game-wrapper .gameboard-container {
-    $padding: 8px;
-    width: calc(100% - #{$padding*2});
-    padding: $padding;
-  }
-
-  .game-wrapper .gameboard-wrapper {
-    border-radius: 5px;
-  }
-
-  .game-container {
-    gap: 5px !important;
-  }
-}
-
-@media screen and (max-width: 700px) {
-  .planning-container {
-    gap: 2px !important;
-  }
 }

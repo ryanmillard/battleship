@@ -1,3 +1,4 @@
+@import './variables';
 @import './gameboard';
 
 body {
@@ -134,7 +135,7 @@ main {
   width: 80%;
   aspect-ratio: 1;
   background-color: rgba(0,0,0,0.5);
-  border: 2px solid rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.5);
   border-radius: 10px;
 
   display: flex;
@@ -172,11 +173,51 @@ main {
   width: 100%;
 }
 
+#p1-gameboard {
+  grid-area: boardOne;
+
+  @media screen and (max-width: 700px) {
+    width: 50%;
+    height: 100%;
+  }
+}
+
+#p2-gameboard {
+  grid-area: boardTwo;
+}
+
 .game-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
   gap: 10px;
   margin: 0 auto;
   max-width: 1200px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "boardOne boardTwo";
+
+  @media screen and (max-width: 700px) {
+    grid-template-columns: 0.9fr;
+    grid-template-rows: 0.5fr 1fr;
+    grid-template-areas:
+      "boardOne"
+      "boardTwo";
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .game-wrapper .gameboard-wrapper {
+    border-radius: 5px;
+  }
+
+  .game-container {
+    gap: 5px !important;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .planning-container {
+    gap: 2px !important;
+  }
 }
