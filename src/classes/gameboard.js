@@ -255,8 +255,12 @@ function Gameboard(parent, shipImages, isFriendly) {
     return true;
   }
 
-  function addGameboardTitle() {
-    
+  function addGameboardTitle(text) {
+    let gameboardTitle = document.createElement('div');
+    gameboardTitle.classList.add('gameboard-title');
+    gameboardTitle.classList.add(`${isFriendly ? 'friendly' : 'enemy'}-title`);
+    gameboardTitle.textContent = text;
+    gameboardWrapper.prepend(gameboardTitle);
   }
 
   gameboardFrame.addEventListener('dragleave', (event) => {
@@ -281,6 +285,7 @@ function Gameboard(parent, shipImages, isFriendly) {
     resetShips,
     getShips,
     areAllShipsPlaced,
+    addGameboardTitle,
     'UI': containerFrame
   }
 }

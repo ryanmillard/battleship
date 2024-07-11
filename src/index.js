@@ -31,7 +31,10 @@ const p1GameboardContainer = document.getElementById('p1-gameboard');
 const p2GameboardContainer = document.getElementById('p2-gameboard');
 
 const gameboardOne = Gameboard(p1GameboardContainer, shipImages, true);
+gameboardOne.addGameboardTitle('FRIENDLY WATERS');
+
 const gameboardTwo = Gameboard(p2GameboardContainer, shipImages, false);
+gameboardTwo.addGameboardTitle('ENEMY WATERS');
 
 for (let i = 0; i < draggables.length; i++) {
   draggables[i].addEventListener('dragstart', (event) => {
