@@ -22,13 +22,24 @@ const shipData = [
 ];
 
 function Ship() {
-  let length = 0;
+  let shipID = null;
   let timesHit = 0;
+  let isPlaced = false;
+  let isHorizontal = true;
+  let coordinates = [];
   
   const hit = () => timesHit += 1;
   const isSunk = () => timesHit === length;
 
-  return { length, timesHit, hit, isSunk };
+  return {
+    shipID,
+    timesHit,
+    isPlaced,
+    isHorizontal,
+    coordinates,
+    hit,
+    isSunk
+  };
 }
 
 module.exports = { Ship, shipData };

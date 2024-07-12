@@ -233,11 +233,7 @@ function Gameboard(parent, shipImages, isFriendly) {
 
   function resetShipsStored() {
     for (let i = 0; i < 5; i++) {
-      ships[i] = {
-        'isPlaced': false,
-        'isHorizontal': true,
-        'coordinates': []
-      }
+      ships[i] = Ship();
     }
   }
 
