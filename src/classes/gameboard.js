@@ -88,14 +88,7 @@ function Gameboard(parent, shipImages, isFriendly) {
           return;
         }
       
-        createShipUI(draggingShipID, dropLocation, isHorizontal);
-        ships[draggingShipID].isPlaced = true;
-        ships[draggingShipID].isHorizontal = isHorizontal;
-        ships[draggingShipID].coordinates = calculateDropLocationCords(
-          dropLocation,
-          isHorizontal,
-          shipLength
-        )
+        createShip(draggingShipID, dropLocation, isHorizontal);
         
         containerFrame.dispatchEvent(new CustomEvent('shipDropped', {
           detail: { 'shipID': draggingShipID }
@@ -194,6 +187,18 @@ function Gameboard(parent, shipImages, isFriendly) {
     }
   }
 
+  function createShip(shipID, dropLocation, isHorizontal) {
+    const shipLength = shipData[shipID].length;
+    createShipUI(shipID, dropLocation, isHorizontal);
+    ships[shipID].isPlaced = true;
+    ships[shipID].isHorizontal = isHorizontal;
+    ships[shipID].coordinates = calculateDropLocationCords(
+      dropLocation,
+      isHorizontal,
+      shipLength
+    );
+  }
+
   function createShipUI(shipID, start, isHorizontal) {
     let ship = shipData[shipID];
 
@@ -251,6 +256,32 @@ function Gameboard(parent, shipImages, isFriendly) {
     return true;
   }
 
+  function randomlyPlaceAllShips() {
+    const randomCord = () => Math.floor(Math.random()*10);
+
+    resetShips();
+    
+    for (let shipID = 0; shipID < shipData.length; shipID++) {
+      let shipLength = shipData[shipID].length;
+      let shipPlaced = false;
+
+      while (!shipPlaced) {
+        let isHorizontal = Math.random() < 0.5;
+        let x = randomCord();
+        let y = randomCord();
+        let dropLocation = [x,y];
+
+        if (!isShipDropLocationValid(dropLocation, isHorizontal, shipLength)) continue;
+      
+        createShipUI(shipID, dropLocation, isHorizontal);
+        ships[shipID].isPlaced = true;
+        ships[shipID].isHorizontal = isHorizontal;
+        ships[shipID].coordinates = calculateDropLocationCords(dropLocation,isHorizontal,shipLength);
+        shipPlaced = true;
+      }
+    }
+  }
+
   function addGameboardTitle(text) {
     let gameboardTitle = document.createElement('div');
     gameboardTitle.classList.add('gameboard-title');
@@ -275,13 +306,14 @@ function Gameboard(parent, shipImages, isFriendly) {
     getCellNumberFromCord,
     isShipDropLocationValid,
     highlightShipDropLocation,
-    createShipUI,
     resetGridHighlights,
     rotateShip,
     resetShips,
     getShips,
     areAllShipsPlaced,
     addGameboardTitle,
+    randomlyPlaceAllShips,
+    createShip,
     'UI': containerFrame
   }
 }

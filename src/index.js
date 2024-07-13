@@ -19,6 +19,7 @@ const planningGrid = document.getElementsByClassName('planning-grid')[0];
 const planningGameboard = Gameboard(planningGrid, shipImages, true);
 
 const shipRotateBtn = document.getElementById('ship-rotate-btn');
+const shipRandomBtn = document.getElementById('ship-random-btn');
 const shipResetBtn = document.getElementById('ship-reset-btn');
 const planningConfirmBtn = document.getElementById('planning-confirm-btn');
 
@@ -51,12 +52,14 @@ function changeDraggableShipState(shipID, enabled) {
   }
 }
 
+function changeConfirmBtnState(enabled) {
+  planningConfirmBtn.classList.add(`planning-btn-${enabled ? 'green':'grey'}`);
+  planningConfirmBtn.classList.remove(`planning-btn-${enabled ? 'grey':'green'}`);
+}
+
 planningGameboard.UI.addEventListener('shipDropped', (event) => {
   changeDraggableShipState(event.detail.shipID, false);
-  if (planningGameboard.areAllShipsPlaced()) {
-    planningConfirmBtn.classList.add('planning-btn-green');
-    planningConfirmBtn.classList.remove('planning-btn-grey');
-  }
+  if (planningGameboard.areAllShipsPlaced()) changeConfirmBtnState(true);
 });
 
 shipRotateBtn.addEventListener('click', (event) => {
@@ -64,18 +67,34 @@ shipRotateBtn.addEventListener('click', (event) => {
   planningGameboard.rotateShip();
 });
 
+shipRandomBtn.addEventListener('click', (event) => {
+  planningGameboard.randomlyPlaceAllShips();
+  for (let i = 0; i < draggables.length; i++) {
+    changeDraggableShipState(i, false);
+  }
+  changeConfirmBtnState(true);
+});
+
 shipResetBtn.addEventListener('click', (event) => {
   planningGameboard.resetShips();
   for (let i = 0; i < draggables.length; i++) {
     changeDraggableShipState(i, true);
   }
-  planningConfirmBtn.classList.add('planning-btn-grey');
-  planningConfirmBtn.classList.remove('planning-btn-green');
+  changeConfirmBtnState(false);
 });
 
 planningConfirmBtn.addEventListener('click', (event) => {
   if (!planningGameboard.areAllShipsPlaced()) return;
   planningWrapper.style.display = 'none';
   gameWrapper.style.display = 'inline-block';
+
+  let ships = planningGameboard.getShips();
+  for (let shipID = 0; shipID < ships.length; shipID++) {
+    gameboardOne.createShip(
+      shipID,
+      ships[shipID].coordinates[0],
+      ships[shipID].isHorizontal
+    );
+  }
 });
 
