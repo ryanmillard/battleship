@@ -65,7 +65,6 @@ planningGameboard.UI.addEventListener('shipDropped', (event) => {
 });
 
 shipRotateBtn.addEventListener('click', (event) => {
-  console.log("changing rotation")
   planningGameboard.rotateShip();
 });
 

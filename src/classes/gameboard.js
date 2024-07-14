@@ -323,8 +323,6 @@ function Gameboard(parent, shipImages, isFriendly) {
 
     if (hasHitShip) {
       ships[hitShipID].hit();
-      console.log(ships[hitShipID].isSunk());
-      console.log(ships[hitShipID].getTimesHit());
       if (ships[hitShipID].isSunk()) {
         createShipUI(
           hitShipID,
