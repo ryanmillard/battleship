@@ -27,18 +27,23 @@ function Ship() {
   let isPlaced = false;
   let isHorizontal = true;
   let coordinates = [];
+  let isVisible = false;
+  let length = 0;
   
-  const hit = () => timesHit += 1;
+  const hit = () => { timesHit += 1 };
   const isSunk = () => timesHit === length;
+  const getTimesHit = () => timesHit;
 
   return {
     shipID,
-    timesHit,
     isPlaced,
     isHorizontal,
+    isVisible,
     coordinates,
+    setLength: (len) => length = len, 
     hit,
-    isSunk
+    isSunk,
+    getTimesHit
   };
 }
 

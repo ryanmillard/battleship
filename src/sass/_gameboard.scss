@@ -91,6 +91,7 @@
   border-top: none;
   border-left: none;
   user-select: none;
+  position: relative;
 }
 
 .cell-deny {
@@ -99,6 +100,67 @@
 
 .cell-accept {
   background-color: rgba(98,169,98,0.5);
+}
+
+.cell-circle {
+  border-radius: 50%;
+  width: 25%;
+  height: 25%;
+  background-color: rgb(255,255,255);
+  z-index: 1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.circle-ship-miss {
+  @keyframes missAnimation {
+    0% {
+      width: 0%;
+      height: 0%;
+      background-color: red;
+    }
+
+    50% {
+      width: 40%;
+      height: 40%;
+      background-color: white;
+    }
+
+    100% {
+      width: 25%;
+      height: 25%;
+      background-color: white;
+    }
+  }
+  animation: missAnimation 0.5s ease-in-out;
+}
+
+.circle-ship-hit {
+  @keyframes hitAnimation {
+    0% {
+      width: 0%;
+      height: 0%;
+      background-color: red;
+    }
+
+    50% {
+      width: 90%;
+      height: 90%;
+      background-color: orange;
+    }
+
+    100% {
+      width: 25%;
+      height: 25%;
+      background-color: red;
+    }
+  }
+  animation: hitAnimation 0.5s ease-in-out;
+  background-color: red;
 }
 
 .ship-container {

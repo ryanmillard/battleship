@@ -5,6 +5,7 @@ function Gameboard(parent, shipImages, isFriendly) {
   let isHorizontal = true;
   let gameboard = [];
   let ships = [];
+  let firedLocations = [];
   resetShipsStored();
   for (let x = 0; x < 10; x++) {
     gameboard[x] = [];
@@ -55,6 +56,14 @@ function Gameboard(parent, shipImages, isFriendly) {
   const width = 10;
   const height = 10;
 
+  function createHitCircle(parent, hasHitShip) {
+    let circle = document.createElement('div')
+    circle.classList.add('cell-circle');
+    const animClass = `circle-ship-${hasHitShip ? 'hit' : 'miss'}`;
+    circle.classList.add(animClass);
+    parent.appendChild(circle);
+  }
+
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
       let cell = document.createElement('div');
@@ -63,9 +72,9 @@ function Gameboard(parent, shipImages, isFriendly) {
 
       // Cell was clicked
       cell.addEventListener('click', () => {
-        // containerFrame.dispatchEvent(new CustomEvent('cellClicked', {
-        //   detail: { 'x': x, 'y': y }
-        // }));
+        containerFrame.dispatchEvent(new CustomEvent('cellClicked', {
+          detail: { 'x': x, 'y': y }
+        }));
       });
     
       // The cell has had a draggable element dropped on it.
@@ -138,7 +147,8 @@ function Gameboard(parent, shipImages, isFriendly) {
       cords.push([
         isHorizontal ? start[0] + i : start[0],
         isHorizontal ? start[1] : start[1] + i
-      ]);
+      ]);      // let circle = createHitCircle();
+      // cell.appendChild(circle);
     }
     return cords;
   }
@@ -187,16 +197,22 @@ function Gameboard(parent, shipImages, isFriendly) {
     }
   }
 
-  function createShip(shipID, dropLocation, isHorizontal) {
+  function createShipData(shipID, dropLocation, isHorizontal, isHidden=false) {
     const shipLength = shipData[shipID].length;
-    createShipUI(shipID, dropLocation, isHorizontal);
     ships[shipID].isPlaced = true;
     ships[shipID].isHorizontal = isHorizontal;
+    ships[shipID].isVisible = !isHidden;
+    ships[shipID].setLength(shipLength);
     ships[shipID].coordinates = calculateDropLocationCords(
       dropLocation,
       isHorizontal,
       shipLength
     );
+  }
+
+  function createShip(shipID, dropLocation, isHorizontal, isHidden=false) {
+    createShipData(shipID, dropLocation, isHorizontal, isHidden);
+    if (!isHidden) createShipUI(shipID, dropLocation, isHorizontal);
   }
 
   function createShipUI(shipID, start, isHorizontal) {
@@ -256,7 +272,7 @@ function Gameboard(parent, shipImages, isFriendly) {
     return true;
   }
 
-  function randomlyPlaceAllShips() {
+  function randomlyPlaceAllShips(isHidden=false) {
     const randomCord = () => Math.floor(Math.random()*10);
 
     resetShips();
@@ -272,11 +288,10 @@ function Gameboard(parent, shipImages, isFriendly) {
         let dropLocation = [x,y];
 
         if (!isShipDropLocationValid(dropLocation, isHorizontal, shipLength)) continue;
-      
-        createShipUI(shipID, dropLocation, isHorizontal);
-        ships[shipID].isPlaced = true;
-        ships[shipID].isHorizontal = isHorizontal;
-        ships[shipID].coordinates = calculateDropLocationCords(dropLocation,isHorizontal,shipLength);
+        
+        createShipData(shipID, dropLocation, isHorizontal, isHidden);
+        if (!isHidden) createShipUI(shipID, dropLocation, isHorizontal);
+
         shipPlaced = true;
       }
     }
@@ -290,12 +305,41 @@ function Gameboard(parent, shipImages, isFriendly) {
     gameboardWrapper.prepend(gameboardTitle);
   }
 
+  function isFireLocationValid(x,y) {
+    if (!isValidGameboardCord(x,y)) return false;
+    if (firedLocations.includes(`${x}${y}`)) return false;
+    return true;
+  }
+
+  function fireAtLocation(x,y) {
+    if (!isFireLocationValid(x,y)) return;
+    firedLocations.push(`${x}${y}`);
+    let cellNum = getCellNumberFromCord(x,y);
+    let cell = gameboardFrame.children[cellNum];
+
+    const hitShipID = getShipOnCord(x,y);
+    const hasHitShip = hitShipID !== null;
+    createHitCircle(cell, hasHitShip);
+
+    if (hasHitShip) {
+      ships[hitShipID].hit();
+      console.log(ships[hitShipID].isSunk());
+      console.log(ships[hitShipID].getTimesHit());
+      if (ships[hitShipID].isSunk()) {
+        createShipUI(
+          hitShipID,
+          ships[hitShipID].coordinates[0],
+          ships[hitShipID].isHorizontal
+        )
+      }
+    }
+  }
+
   gameboardFrame.addEventListener('dragleave', (event) => {
     event.stopPropagation();
     event.preventDefault();
     if (event.currentTarget.contains(event.relatedTarget)) return;
     resetGridHighlights();
-    console.log("Drag leave grid");
   });
 
   const rotateShip = () => isHorizontal = !isHorizontal;
@@ -314,6 +358,8 @@ function Gameboard(parent, shipImages, isFriendly) {
     addGameboardTitle,
     randomlyPlaceAllShips,
     createShip,
+    isFireLocationValid,
+    fireAtLocation,
     'UI': containerFrame
   }
 }

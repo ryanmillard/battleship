@@ -43,6 +43,8 @@ for (let i = 0; i < draggables.length; i++) {
   });
 }
 
+let hasGameStarted = false;
+
 function changeDraggableShipState(shipID, enabled) {
   let item = draggables[shipID]
   item.draggable = enabled;
@@ -96,5 +98,17 @@ planningConfirmBtn.addEventListener('click', (event) => {
       ships[shipID].isHorizontal
     );
   }
+
+  gameboardTwo.randomlyPlaceAllShips(true);
+
+  hasGameStarted = true;
 });
 
+gameboardTwo.UI.addEventListener('cellClicked', (event) => {
+  if (!hasGameStarted) return;
+  
+  let cell = [event.detail.x, event.detail.y];
+  if (!gameboardTwo.isFireLocationValid(cell[0], cell[1])) return;
+
+  gameboardTwo.fireAtLocation(cell[0], cell[1]);
+});
