@@ -12,6 +12,8 @@ const shipImages = [carrierSVG, battleshipSVG, cruiserSVG, submarineSVG, destroy
 
 const Gameboard = require('./classes/gameboard.js');
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 const main = document.getElementsByTagName('main')[0];
 const planningWrapper = document.getElementsByClassName('planning-wrapper')[0];
 const planningGrid = document.getElementsByClassName('planning-grid')[0];
@@ -44,6 +46,7 @@ for (let i = 0; i < draggables.length; i++) {
 }
 
 let hasGameStarted = false;
+let hasGameEnded = false;
 
 function changeDraggableShipState(shipID, enabled) {
   let item = draggables[shipID]
@@ -103,11 +106,40 @@ planningConfirmBtn.addEventListener('click', (event) => {
   hasGameStarted = true;
 });
 
-gameboardTwo.UI.addEventListener('cellClicked', (event) => {
+let fireAtShipDebounce = false;
+
+gameboardTwo.UI.addEventListener('cellClicked', async (event) => {
   if (!hasGameStarted) return;
+  if (hasGameEnded) return;
   
   let cell = [event.detail.x, event.detail.y];
   if (!gameboardTwo.isFireLocationValid(cell[0], cell[1])) return;
+  
+  if (fireAtShipDebounce) return;
+  fireAtShipDebounce = true
 
   gameboardTwo.fireAtLocation(cell[0], cell[1]);
+
+  const hasPlayerOneWonGame = gameboardTwo.areAllShipsSunk();
+  if (hasPlayerOneWonGame) {
+    hasGameEnded = true;
+    return;
+  }
+  
+  // Can Player One take another turn
+  if (gameboardTwo.isAShipOnCord(cell[0], cell[1])) {
+    fireAtShipDebounce = false;
+    return;
+  }
+
+  let computersTurn = true;
+  while (computersTurn) {
+    await delay(500); // Simulating computer taking time to process
+    let randLocation = gameboardOne.getRandomUnfiredLocation();
+    gameboardOne.fireAtLocation(randLocation[0], randLocation[1]);
+    if (!gameboardOne.isAShipOnCord(randLocation[0], randLocation[1])) {
+      computersTurn = false;
+    }
+  }
+  fireAtShipDebounce = false;
 });

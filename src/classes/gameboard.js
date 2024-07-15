@@ -1,17 +1,26 @@
 const { Ship, shipData } = require('./ship.js');
 
 function Gameboard(parent, shipImages, isFriendly) {
-  console.log(parent);
   let isHorizontal = true;
   let gameboard = [];
   let ships = [];
-  let firedLocations = [];
+  let unfiredLocations = [];
   resetShipsStored();
   for (let x = 0; x < 10; x++) {
     gameboard[x] = [];
     for (let y = 0; y < 10; y++) {
       gameboard[x][y] = null;
     }
+  }
+  
+  for (let i = 0; i < 100; i++) {
+    unfiredLocations.push(i);
+  }
+
+  function getRandomUnfiredLocation() {
+    const index = Math.floor(Math.random() * unfiredLocations.length);
+    const cellNum = unfiredLocations[index];
+    return getCordFromCellNumber(cellNum);
   }
 
   let gameboardWrapper = document.createElement('div');
@@ -128,6 +137,12 @@ function Gameboard(parent, shipImages, isFriendly) {
     return (y * 10) + x;
   }
 
+  function getCordFromCellNumber(num) {
+    let x = num % 10;
+    let y = Math.floor(num / 10);
+    return [x,y];
+  }
+
   function getShipOnCord(x,y) {
     for (let i = 0; i < ships.length; i++) {
       let shipCords = ships[i].coordinates;
@@ -139,6 +154,10 @@ function Gameboard(parent, shipImages, isFriendly) {
       }
     }
     return null;
+  }
+
+  function isAShipOnCord(x,y) {
+    return getShipOnCord(x,y) !== null;
   }
 
   function calculateDropLocationCords(start, isHorizontal, length) {
@@ -161,7 +180,7 @@ function Gameboard(parent, shipImages, isFriendly) {
       ];
   
       if (!isValidGameboardCord(cord[0], cord[1])) return false;
-      if (getShipOnCord(cord[0], cord[1]) !== null) return false;
+      if (isAShipOnCord(cord[0], cord[1])) return false;
     }
   
     return true;
@@ -181,7 +200,7 @@ function Gameboard(parent, shipImages, isFriendly) {
         break;
       }
 
-      if (getShipOnCord(cord[0], cord[1]) !== null) {
+      if (isAShipOnCord(cord[0], cord[1])) {
         validPlacement = false;
       }
       
@@ -272,6 +291,13 @@ function Gameboard(parent, shipImages, isFriendly) {
     return true;
   }
 
+  function areAllShipsSunk() {
+    for (let i = 0; i < ships.length; i++) {
+      if (!ships[i].isSunk()) return false;
+    }
+    return true;
+  }
+
   function randomlyPlaceAllShips(isHidden=false) {
     const randomCord = () => Math.floor(Math.random()*10);
 
@@ -305,17 +331,23 @@ function Gameboard(parent, shipImages, isFriendly) {
     gameboardWrapper.prepend(gameboardTitle);
   }
 
+  function hasCordBeenFiredAt(x,y) {
+    return !unfiredLocations.includes(getCellNumberFromCord(x,y));
+  }
+
   function isFireLocationValid(x,y) {
     if (!isValidGameboardCord(x,y)) return false;
-    if (firedLocations.includes(`${x}${y}`)) return false;
+    if (hasCordBeenFiredAt(x,y)) return false;
     return true;
   }
 
   function fireAtLocation(x,y) {
     if (!isFireLocationValid(x,y)) return;
-    firedLocations.push(`${x}${y}`);
+
     let cellNum = getCellNumberFromCord(x,y);
     let cell = gameboardFrame.children[cellNum];
+    
+    unfiredLocations = unfiredLocations.filter(x => x !== cellNum);
 
     const hitShipID = getShipOnCord(x,y);
     const hasHitShip = hitShipID !== null;
@@ -353,11 +385,15 @@ function Gameboard(parent, shipImages, isFriendly) {
     resetShips,
     getShips,
     areAllShipsPlaced,
+    areAllShipsSunk,
+    isAShipOnCord,
     addGameboardTitle,
     randomlyPlaceAllShips,
     createShip,
     isFireLocationValid,
     fireAtLocation,
+    getRandomUnfiredLocation,
+    hasCordBeenFiredAt,
     'UI': containerFrame
   }
 }
