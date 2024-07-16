@@ -178,7 +178,7 @@ main {
 
   @media screen and (max-width: 700px) {
     width: 50%;
-    height: 100%;
+    aspect-ratio: 1;
   }
 }
 
@@ -198,8 +198,8 @@ main {
     "boardOne boardTwo";
 
   @media screen and (max-width: 700px) {
-    grid-template-columns: 0.9fr;
-    grid-template-rows: 0.5fr 1fr;
+    grid-template-columns: 0.95fr;
+    grid-template-rows: 0.3fr 1fr;
     grid-template-areas:
       "boardOne"
       "boardTwo";
@@ -219,5 +219,31 @@ main {
 @media screen and (max-width: 700px) {
   .planning-container {
     gap: 2px !important;
+  }
+
+  .friendly-title {
+    display: none;
+  }
+
+  // When p1-gameboard goes small, hide the letters and numbers
+  // for coordinates and fit the other content to fit the whole
+  // grid or else theres just empty space
+  #p1-gameboard {
+    .gameboard-numbers {
+      display: none;
+    }
+    .gameboard-letters {
+      display: none;
+    }
+    .gameboard-container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr;
+    }
+    .gameboard {
+      grid-area: 1/1;
+    }
+    .ship-container {
+      grid-area: 1/1;
+    }
   }
 }
