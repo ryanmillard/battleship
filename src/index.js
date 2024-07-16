@@ -39,6 +39,8 @@ gameboardOne.addGameboardTitle('FRIENDLY WATERS');
 const gameboardTwo = Gameboard(p2GameboardContainer, shipImages, false);
 gameboardTwo.addGameboardTitle('ENEMY WATERS');
 
+const gameMessage = document.getElementsByClassName('game-message')[0];
+
 for (let i = 0; i < draggables.length; i++) {
   draggables[i].addEventListener('dragstart', (event) => {
     event.dataTransfer.setData('draggingShipID', i);
@@ -55,6 +57,10 @@ function changeDraggableShipState(shipID, enabled) {
   for (let i = 0; i < item.children.length; i++) {
     item.children[i].style.visibility = enabled ? 'visible' : 'hidden';
   }
+}
+
+function setGameMessage(text) {
+  gameMessage.textContent = text;
 }
 
 function changeConfirmBtnState(enabled) {
@@ -123,22 +129,35 @@ gameboardTwo.UI.addEventListener('cellClicked', async (event) => {
   const hasPlayerOneWonGame = gameboardTwo.areAllShipsSunk();
   if (hasPlayerOneWonGame) {
     hasGameEnded = true;
+    setGameMessage('YOU WIN! All Enemy ships destroyed.');
     return;
   }
   
   // Can Player One take another turn
   if (gameboardTwo.isAShipOnCord(cell[0], cell[1])) {
     fireAtShipDebounce = false;
+    setGameMessage('Hit! You get another turn.');
     return;
+  } else {
+    setGameMessage('You missed! Enemies turn!');
   }
 
   let computersTurn = true;
   while (computersTurn) {
-    await delay(500); // Simulating computer taking time to process
+    await delay(1500); // Simulating computer taking time to process
     let randLocation = gameboardOne.getRandomUnfiredLocation();
     gameboardOne.fireAtLocation(randLocation[0], randLocation[1]);
+    const hasPlayerTwoWonGame = gameboardOne.areAllShipsSunk();
+    if (hasPlayerTwoWonGame) {
+      hasGameEnded = true;
+      setGameMessage("You lost! All friendly ships have sunk...");
+      return;
+    }
     if (!gameboardOne.isAShipOnCord(randLocation[0], randLocation[1])) {
       computersTurn = false;
+      setGameMessage('Enemy miss! Our turn.');
+    } else {
+      setGameMessage('Enemy has hit our ship!');
     }
   }
   fireAtShipDebounce = false;

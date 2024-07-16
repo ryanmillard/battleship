@@ -73,6 +73,10 @@ main {
   font-family: monospace;
   text-align: center;
   font-size: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .planning-options {
@@ -193,17 +197,34 @@ main {
   display: grid;
   justify-content: center;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: 30px 1fr;
   grid-template-areas:
+    "message message"
     "boardOne boardTwo";
 
   @media screen and (max-width: 700px) {
     grid-template-columns: 0.95fr;
-    grid-template-rows: 0.3fr 1fr;
+    grid-template-rows: 0.3fr 30px 1fr;
     grid-template-areas:
       "boardOne"
+      "message"
       "boardTwo";
   }
+}
+
+.game-message {
+  grid-area: message;
+  background-color: rgba(0,0,0,0.65);
+  color: white;
+
+  font-weight: bold;
+  font-family: monospace;
+  text-align: center;
+  font-size: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 900px) {
